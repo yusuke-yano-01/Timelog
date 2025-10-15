@@ -4,21 +4,21 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>FashionablyLate</title>
+  <title>TimeLog</title>
   <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
   <link rel="stylesheet" href="{{ asset('css/common.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   @yield('css')
 </head>
 
-<body>
+<body class="@if(request()->is('auth/*')) auth-page @endif">
   <header class="header">
     <div class="header__inner">
       <div class="header-utilities">
         <a class="header__logo" href="/">
-          <img src="{{ asset('assets/images/logo.svg') }}" alt="フリマアプリ" class="header__logo-image">
+          <img src="{{ asset('assets/images/logo.svg') }}" alt="CT COACHTECH" class="header__logo-image">
         </a>
         <nav class="header-nav">
             @if (Auth::check())

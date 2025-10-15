@@ -1,0 +1,196 @@
+/* ========================================
+   リセット・基本設定
+   ======================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #ffffff;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+}
+
+/* ========================================
+   ユーティリティ
+   ======================================== */
+
+.hidden {
+    display: none;
+}
+
+/* アラート内のリスト余白を統一 */
+.alert ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+/* ========================================
+   ヘッダー
+   ======================================== */
+
+.header {
+    background-color: #000000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.header__inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.header-utilities {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    position: relative;
+    width: 100%;
+}
+
+.header__logo {
+    display: block;
+    text-decoration: none;
+    z-index: 1;
+}
+
+.header__logo-image {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+    position: relative;
+    z-index: 2;
+    flex-wrap: nowrap;
+}
+
+/* ========================================
+   ナビゲーション
+   ======================================== */
+
+.header-nav__link {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.header-nav__link:hover {
+    background-color: #ffffff;
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+}
+
+.header-nav__product-btn {
+    background-color: #ffffff;
+    color: #333333;
+    border: 2px solid #333333;
+}
+
+.header-nav__product-btn:hover {
+    background-color: #333333;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header-nav__button {
+    color: #9e743e;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 2px solid #fff;
+    background: transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.header-nav__button:hover {
+    background-color: #9e743e;
+    color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ログインユーザー向けナビゲーション */
+.header-nav__user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+}
+
+.header-nav__product-btn {
+    margin-left: auto;
+}
+
+.header-nav__logout {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.header-nav__logout-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: inherit;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.header-nav__logout-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .header__logo-image {
+        height: 35px;
+    }
+
+    .header-nav__user {
+        gap: 10px;
+    }
+
+    .header-nav__link,
+    .header-nav__logout-btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
