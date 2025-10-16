@@ -38,7 +38,9 @@
 }
 
 .btn-clock-in,
-.btn-clock-out {
+.btn-clock-out,
+.btn-break-start,
+.btn-break-end {
     width: 200px;
     height: 60px;
     font-size: 18px;
@@ -65,6 +67,38 @@
 
 .btn-clock-out:hover {
     background-color: #dc2626;
+}
+
+.btn-break-start {
+    background-color: #f59e0b;
+    color: white;
+}
+
+.btn-break-start:hover {
+    background-color: #d97706;
+}
+
+.btn-break-end {
+    background-color: #10b981;
+    color: white;
+}
+
+.btn-break-end:hover {
+    background-color: #059669;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.break-form,
+.clock-out-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .success-message {

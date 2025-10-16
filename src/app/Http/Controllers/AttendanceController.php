@@ -95,4 +95,82 @@ class AttendanceController extends Controller
         
         return redirect('/')->with('success', '退勤を記録しました。');
     }
+    
+    public function startBreak(Request $request)
+    {
+        $user = Auth::user();
+        $today = Carbon::today();
+        
+        // 今日の出勤記録を取得
+        $attendanceRecord = Time::where('user_id', $user->id)
+            ->where('date', $today)
+            ->first();
+        
+        if (!$attendanceRecord) {
+            return back()->withErrors(['error' => '出勤記録が見つかりません。']);
+        }
+        
+        if ($attendanceRecord->departure_time) {
+            return back()->withErrors(['error' => '既に退勤済みです。']);
+        }
+        
+        if ($user->break_flg) {
+            return back()->withErrors(['error' => '既に休憩中です。']);
+        }
+        
+        // 休憩開始時間を記録
+        $breakStartTime = Carbon::now()->format('H:i');
+        
+        if (!$attendanceRecord->start_break_time1) {
+            $attendanceRecord->update([
+                'start_break_time1' => $breakStartTime,
+            ]);
+            $user->update(['break_flg' => true]);
+        } elseif (!$attendanceRecord->start_break_time2) {
+            $attendanceRecord->update([
+                'start_break_time2' => $breakStartTime,
+            ]);
+            $user->update(['break_flg' => true]);
+        } else {
+            return back()->withErrors(['error' => '休憩回数の上限に達しています。']);
+        }
+        
+        return redirect('/')->with('success', '休憩を開始しました。');
+    }
+    
+    public function endBreak(Request $request)
+    {
+        $user = Auth::user();
+        $today = Carbon::today();
+        
+        // 今日の出勤記録を取得
+        $attendanceRecord = Time::where('user_id', $user->id)
+            ->where('date', $today)
+            ->first();
+        
+        if (!$attendanceRecord) {
+            return back()->withErrors(['error' => '出勤記録が見つかりません。']);
+        }
+        
+        if (!$user->break_flg) {
+            return back()->withErrors(['error' => '休憩中ではありません。']);
+        }
+        
+        // 休憩終了時間を記録
+        $breakEndTime = Carbon::now()->format('H:i');
+        
+        if ($attendanceRecord->start_break_time1 && !$attendanceRecord->end_break_time1) {
+            $attendanceRecord->update([
+                'end_break_time1' => $breakEndTime,
+            ]);
+            $user->update(['break_flg' => false]);
+        } elseif ($attendanceRecord->start_break_time2 && !$attendanceRecord->end_break_time2) {
+            $attendanceRecord->update([
+                'end_break_time2' => $breakEndTime,
+            ]);
+            $user->update(['break_flg' => false]);
+        }
+        
+        return redirect('/')->with('success', '休憩を終了しました。');
+    }
 }

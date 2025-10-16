@@ -27,6 +27,8 @@ Route::get('/', function () {
 Route::get('/attendance', [AttendanceController::class, 'index'])->middleware('auth');
 Route::post('/attendance/clock-in', [AttendanceController::class, 'clockIn'])->middleware('auth');
 Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->middleware('auth');
+Route::post('/attendance/start-break', [AttendanceController::class, 'startBreak'])->middleware('auth');
+Route::post('/attendance/end-break', [AttendanceController::class, 'endBreak'])->middleware('auth');
 
 // 認証関連のルート
 Route::group(['prefix' => 'auth'], function() {
