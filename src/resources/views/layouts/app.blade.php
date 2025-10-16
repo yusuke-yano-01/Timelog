@@ -23,12 +23,13 @@
         <nav class="header-nav">
             @if (Auth::check())
               <div class="header-nav__user">
-                <a class="header-nav__link" href="/mypage">マイページ</a>
+                <a class="header-nav__link" href="/">勤怠</a>
+                <a class="header-nav__link" href="/attendance/history">勤怠一覧</a>
+                <a class="header-nav__link" href="/attendance/application">申請</a>
                 <form action="/auth/logout" method="post" class="header-nav__logout">
                   @csrf
                   <button class="header-nav__link header-nav__logout-btn">ログアウト</button>
                 </form>
-                <a class="header-nav__link header-nav__product-btn" href="/productform">出品</a>
               </div>
             @elseif (request()->path() === 'auth/login')
               <a class="header-nav__link" href="/auth/register">register</a>
@@ -46,6 +47,8 @@
   <main>
     @yield('content')
   </main>
+  
+  @yield('js')
 </body>
 
 </html>

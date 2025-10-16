@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +18,15 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::get('/', function () {
-    return view('auth/login');
+    if (Auth::check()) {
+        return redirect()->action([AttendanceController::class, 'index']);
+    }
+    return redirect('/auth/login');
 });
+
+Route::get('/attendance', [AttendanceController::class, 'index'])->middleware('auth');
+Route::post('/attendance/clock-in', [AttendanceController::class, 'clockIn'])->middleware('auth');
+Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->middleware('auth');
 
 // 認証関連のルート
 Route::group(['prefix' => 'auth'], function() {

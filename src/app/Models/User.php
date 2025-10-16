@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'actor_id',
+        'registeredflg',
     ];
 
     /**
@@ -40,5 +42,22 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'registeredflg' => 'boolean',
     ];
+
+    /**
+     * このユーザーが属するアクター
+     */
+    public function actor()
+    {
+        return $this->belongsTo(Actor::class);
+    }
+
+    /**
+     * このユーザーのタイム記録
+     */
+    public function times()
+    {
+        return $this->hasMany(Time::class);
+    }
 }
