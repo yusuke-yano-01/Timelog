@@ -1,0 +1,169 @@
+/* ========================================
+   管理者用申請詳細画面
+   ======================================== */
+
+.application-detail-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+.application-detail-header {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-bar {
+    width: 4px;
+    height: 28px;
+    background-color: #000000;
+    flex-shrink: 0;
+}
+
+.application-detail-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+}
+
+/* ========================================
+   フォームスタイル
+   ======================================== */
+
+.application-detail-form {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.form-row:last-of-type {
+    border-bottom: none;
+}
+
+.form-label {
+    width: 120px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333333;
+    flex-shrink: 0;
+}
+
+.form-value {
+    flex: 1;
+    font-size: 16px;
+    color: #333333;
+    font-weight: 500;
+}
+
+.year {
+    font-size: 16px;
+    color: #333333;
+    margin-right: 8px;
+}
+
+.month-day {
+    font-size: 16px;
+    color: #333333;
+    font-weight: 500;
+}
+
+/* ========================================
+   ボタンスタイル
+   ======================================== */
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+.btn-approve {
+    padding: 12px 24px;
+    background-color: #059669;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-approve:hover {
+    background-color: #047857;
+}
+
+.approved-status {
+    padding: 12px 24px;
+    background-color: #6b7280; /* 灰色 */
+    color: #ffffff; /* 白文字 */
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* ========================================
+   レスポンシブ対応
+   ======================================== */
+
+@media (max-width: 768px) {
+    .application-detail-container {
+        padding: 15px;
+    }
+
+    .application-detail-title {
+        font-size: 24px;
+    }
+
+    .application-detail-form {
+        padding: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px 0;
+    }
+
+    .form-label {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .form-value {
+        font-size: 14px;
+    }
+
+    .btn-approve {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .approved-status {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .application-detail-form {
+        padding: 15px;
+    }
+}

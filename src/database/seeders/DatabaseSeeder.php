@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ActorSeeder::class,
-            MonthSeeder::class,
             UserSeeder::class,
             TimeSeeder::class,
         ]);

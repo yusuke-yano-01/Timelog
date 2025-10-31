@@ -16,7 +16,6 @@ class CreateTimesTable extends Migration
         Schema::create('times', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('month_id')->constrained('months');
             $table->date('date');
             $table->string('arrival_time');
             $table->string('departure_time')->nullable();

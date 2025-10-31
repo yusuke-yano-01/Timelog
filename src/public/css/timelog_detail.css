@@ -1,0 +1,283 @@
+/* ========================================
+   勤怠詳細画面
+   ======================================== */
+
+.timelog-detail-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+.timelog-detail-header {
+    margin-bottom: 30px;
+}
+
+.timelog-detail-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+    position: relative;
+    padding-left: 15px;
+}
+
+.timelog-detail-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 28px;
+    background-color: #000000;
+}
+
+/* ========================================
+   フォームスタイル
+   ======================================== */
+
+.timelog-detail-form {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.form-row:last-of-type {
+    border-bottom: none;
+}
+
+.form-label {
+    width: 120px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333333;
+    flex-shrink: 0;
+}
+
+.form-value {
+    flex: 1;
+    font-size: 16px;
+    color: #333333;
+    font-weight: 500;
+}
+
+.year {
+    font-size: 16px;
+    color: #333333;
+    margin-right: 8px;
+}
+
+.month-day {
+    font-size: 16px;
+    color: #333333;
+    font-weight: 500;
+}
+
+/* ========================================
+   入力フィールドスタイル
+   ======================================== */
+
+.form-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.time-input {
+    width: 120px;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: "Courier New", monospace;
+    text-align: right;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease;
+}
+
+.time-input:focus {
+    outline: none;
+    border-color: #000000;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.time-input:disabled {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+.separator {
+    font-size: 16px;
+    color: #666666;
+    font-weight: 500;
+}
+
+.form-textarea-group {
+    flex: 1;
+}
+
+.note-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: inherit;
+    resize: vertical;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease;
+}
+
+.note-textarea:focus {
+    outline: none;
+    border-color: #000000;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.note-textarea:disabled {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+.note-textarea::placeholder {
+    color: #9ca3af;
+}
+
+/* ========================================
+   ボタンスタイル
+   ======================================== */
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+.btn-modify {
+    padding: 12px 24px;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-modify:hover {
+    background-color: #333333;
+}
+
+.btn-approve {
+    padding: 12px 24px;
+    background-color: #059669;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.btn-approve:hover {
+    background-color: #047857;
+}
+
+.approval-message {
+    color: #dc2626;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 0;
+}
+
+/* ========================================
+   レスポンシブ対応
+   ======================================== */
+
+@media (max-width: 768px) {
+    .timelog-detail-container {
+        padding: 15px;
+    }
+
+    .timelog-detail-title {
+        font-size: 24px;
+    }
+
+    .timelog-detail-form {
+        padding: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px 0;
+    }
+
+    .form-label {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .form-value {
+        font-size: 14px;
+    }
+
+    .form-input-group {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .time-input {
+        width: 100px;
+        font-size: 14px;
+    }
+
+    .note-textarea {
+        font-size: 14px;
+    }
+
+    .btn-modify {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .timelog-detail-form {
+        padding: 15px;
+    }
+
+    .form-input-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .time-input {
+        width: 100%;
+    }
+
+    .separator {
+        align-self: center;
+    }
+}

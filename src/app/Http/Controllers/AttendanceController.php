@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Time;
-use App\Models\Month;
 use Carbon\Carbon;
 
 class AttendanceController extends Controller
@@ -20,18 +19,12 @@ class AttendanceController extends Controller
             ->where('date', $today)
             ->first();
         
-        // 現在の月のデータを取得または作成
-        $currentMonth = Month::where('year', $today->year)
-            ->where('month', $today->month)
-            ->first();
-        
-        if (!$currentMonth) {
-            $currentMonth = Month::create([
-                'year' => $today->year,
-                'month' => $today->month,
-                'end_date' => $today->daysInMonth,
-            ]);
-        }
+        // Carbonで月の情報を計算
+        $currentMonth = (object)[
+            'year' => $today->year,
+            'month' => $today->month,
+            'end_date' => $today->daysInMonth,
+        ];
         
         // 曜日の漢字配列
         $weekdays = ['日', '月', '火', '水', '木', '金', '土'];
@@ -54,15 +47,9 @@ class AttendanceController extends Controller
             return back()->withErrors(['error' => '今日は既に出勤済みです。']);
         }
         
-        // 現在の月のデータを取得
-        $currentMonth = Month::where('year', $today->year)
-            ->where('month', $today->month)
-            ->first();
-        
         // 出勤記録を作成
         Time::create([
             'user_id' => $user->id,
-            'month_id' => $currentMonth->id,
             'date' => $today,
             'arrival_time' => Carbon::now()->format('H:i'),
         ]);

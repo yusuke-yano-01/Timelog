@@ -15,17 +15,15 @@ class TimeSeeder extends Seeder
     {
         // 既存のユーザーを取得
         $users = \App\Models\User::all();
-        $months = \App\Models\Month::all();
         
-        if ($users->isEmpty() || $months->isEmpty()) {
+        if ($users->isEmpty()) {
             return;
         }
         
-        // サンプルタイムデータを作成（既存のユーザーと月を使用）
+        // サンプルタイムデータを作成（既存のユーザーを使用）
         for ($i = 0; $i < 20; $i++) {
             \App\Models\Time::create([
                 'user_id' => $users->random()->id,
-                'month_id' => $months->random()->id,
                 'date' => \Carbon\Carbon::now()->subDays(rand(1, 30)),
                 'arrival_time' => sprintf('%02d:%02d', rand(8, 10), rand(0, 59)),
                 'departure_time' => sprintf('%02d:%02d', rand(17, 20), rand(0, 59)),

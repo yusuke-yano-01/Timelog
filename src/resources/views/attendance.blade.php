@@ -50,14 +50,18 @@
             </form>
         @elseif(!$todayAttendance->departure_time)
             <div class="button-group">
-                <form action="/attendance/start-break" method="post" class="break-form">
-                    @csrf
-                    <button type="submit" class="btn-break-start">休憩入</button>
-                </form>
                 <form action="/attendance/clock-out" method="post" class="clock-out-form">
                     @csrf
                     <button type="submit" class="btn-clock-out">退勤</button>
                 </form>
+                <form action="/attendance/start-break" method="post" class="break-form">
+                    @csrf
+                    <button type="submit" class="btn-break-start">休憩入</button>
+                </form>
+            </div>
+        @else
+            <div class="work-complete-message">
+                お疲れ様でした。
             </div>
         @endif
     </div>

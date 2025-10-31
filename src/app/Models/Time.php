@@ -11,7 +11,6 @@ class Time extends Model
 
     protected $fillable = [
         'user_id',
-        'month_id',
         'date',
         'arrival_time',
         'departure_time',
@@ -36,11 +35,4 @@ class Time extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * このタイム記録に属する月
-     */
-    public function month()
-    {
-        return $this->belongsTo(Month::class);
-    }
 }

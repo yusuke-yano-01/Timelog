@@ -20,7 +20,6 @@ class TimeFactory extends Factory
         
         return [
             'user_id' => \App\Models\User::factory(),
-            'month_id' => \App\Models\Month::factory(),
             'date' => $this->faker->date(),
             'arrival_time' => sprintf('%02d:%s', $arrivalHour, $arrivalMinute),
             'departure_time' => sprintf('%02d:%s', $departureHour, $departureMinute),
