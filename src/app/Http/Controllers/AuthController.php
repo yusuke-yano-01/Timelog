@@ -8,6 +8,7 @@ use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
@@ -22,6 +23,12 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            
+            // メール認証が完了していない場合は認証画面へ
+            if (!Auth::user()->hasVerifiedEmail()) {
+                return redirect()->route('verification.notice');
+            }
+            
             return redirect('/');
         }
 
@@ -45,10 +52,14 @@ class AuthController extends Controller
             'registeredflg' => true,
         ]);
         
+        // メール認証通知を送信
+        event(new Registered($user));
+        
         // 登録後、自動ログイン
         Auth::login($user);
         
-        return redirect('/');
+        // メール認証画面にリダイレクト
+        return redirect()->route('verification.notice');
     }
 
     public function logout()

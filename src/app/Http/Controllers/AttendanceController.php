@@ -37,7 +37,7 @@ class AttendanceController extends Controller
         $weekdays = ['日', '月', '火', '水', '木', '金', '土'];
         $weekday = $weekdays[$today->dayOfWeek];
         
-        return view('attendance', compact('user', 'todayAttendance', 'currentMonth', 'today', 'weekday'));
+        return view('staff.attendance', compact('user', 'todayAttendance', 'currentMonth', 'today', 'weekday'));
     }
     
     public function clockIn(Request $request)

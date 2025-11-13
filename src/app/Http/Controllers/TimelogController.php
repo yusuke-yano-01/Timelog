@@ -94,7 +94,7 @@ class TimelogController extends Controller
             'month' => $month,
         ];
         
-        return view('timelog_list', compact(
+        return view('staff.timelog_list', compact(
             'currentMonth',
             'prevMonth',
             'nextMonth',
@@ -151,7 +151,7 @@ class TimelogController extends Controller
             $targetUser = $user; // フォールバック
         }
         
-        return view('timelog_detail', compact(
+        return view('staff.timelog_detail', compact(
             'attendanceRecord',
             'application',
             'date',
@@ -575,7 +575,7 @@ class TimelogController extends Controller
         
         $applications = $query->get();
         
-        return view('timelog_application', compact('applications', 'status'));
+        return view('staff.timelog_application', compact('applications', 'status'));
     }
     
     /**
