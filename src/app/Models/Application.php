@@ -5,24 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Time extends Model
+class Application extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
+        'time_id',
         'date',
         'arrival_time',
         'departure_time',
         'note',
+        'application_flg',
     ];
 
     protected $casts = [
         'date' => 'date',
+        'application_flg' => 'integer',
     ];
 
     /**
-     * このタイム記録に属するユーザー
+     * この申請に属するユーザー
      */
     public function user()
     {
@@ -30,19 +33,19 @@ class Time extends Model
     }
 
     /**
-     * このタイム記録の休憩時間
+     * この申請に属するタイム記録
      */
-    public function breaktimes()
+    public function time()
     {
-        return $this->hasMany(Breaktime::class);
+        return $this->belongsTo(Time::class);
     }
 
     /**
-     * このタイム記録に関連する申請
+     * この申請の休憩時間
      */
-    public function applications()
+    public function breaktimes()
     {
-        return $this->hasMany(Application::class);
+        return $this->hasMany(ApplicationBreaktime::class);
     }
-
 }
+

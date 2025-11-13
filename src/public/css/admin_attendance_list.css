@@ -6,7 +6,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f5f5f5;
+    background-color: #ffffff;
     min-height: 100vh;
 }
 
@@ -94,19 +94,18 @@
 
 .attendance-table-container {
     background-color: #ffffff;
-    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .attendance-table {
     width: 100%;
     border-collapse: collapse;
+    border-spacing: 0;
     font-size: 16px;
 }
 
 .attendance-table thead {
-    background-color: #f8f9fa;
+    background-color: #ffffff;
 }
 
 .attendance-table th {
@@ -114,17 +113,17 @@
     text-align: center;
     font-weight: 600;
     color: #000000;
-    border-bottom: 2px solid #e9ecef;
+    border: none;
 }
 
 .attendance-table td {
     padding: 16px 12px;
-    border-bottom: 1px solid #e9ecef;
+    border: none;
     color: #333333;
 }
 
 .attendance-row:hover {
-    background-color: #f8f9fa;
+    background-color: #ffffff;
 }
 
 /* カラム幅の調整 */

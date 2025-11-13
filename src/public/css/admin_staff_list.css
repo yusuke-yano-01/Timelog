@@ -49,15 +49,15 @@
 }
 
 .staff-table thead {
-    background-color: #f8f9fa; /* グレー */
+    background-color: #ffffff;
 }
 
 .staff-table th {
     padding: 16px 12px;
     text-align: center;
     font-weight: 600;
-    color: #000000; /* 黒文字 */
-    border-bottom: 2px solid #e9ecef;
+    color: #000000;
+    border-bottom: 1px solid #e9ecef;
 }
 
 .staff-table td {
@@ -73,20 +73,20 @@
 /* カラム幅の調整 */
 .name-column {
     width: 30%;
-    text-align: left;
+    text-align: center;
 }
 
 .staff-table th.name-column {
-    text-align: left !important;
+    text-align: center !important;
 }
 
 .email-column {
     width: 40%;
-    text-align: left;
+    text-align: center;
 }
 
 .staff-table th.email-column {
-    text-align: left !important;
+    text-align: center !important;
 }
 
 .attendance-column {
@@ -96,11 +96,11 @@
 
 .name-cell {
     font-weight: 500;
-    text-align: left;
+    text-align: center;
 }
 
 .email-cell {
-    text-align: left;
+    text-align: center;
     color: #666666;
 }
 
@@ -110,7 +110,7 @@
 
 .detail-link {
     display: inline-block;
-    color: #000000; /* 黒 */
+    color: #000000;
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;

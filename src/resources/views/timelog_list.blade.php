@@ -71,5 +71,11 @@
             </tbody>
         </table>
     </div>
+    
+    @if(isset($targetUserId) && isset($targetUser) && Auth::check() && Auth::user()->actor_id === 1)
+    <div class="csv-download-container">
+        <a href="{{ route('timelog.csv', array_merge(['user_id' => $targetUserId, 'year' => $currentMonth->year, 'month' => $currentMonth->month])) }}" class="btn-csv-download">CSV出力</a>
+    </div>
+    @endif
 </div>
 @endsection

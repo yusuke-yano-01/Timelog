@@ -28,55 +28,54 @@
         <div class="form-row">
             <div class="form-label">出勤・退勤</div>
             <div class="form-value">
-                {{ $attendanceRecord->arrival_time ?? '-' }} ~ {{ $attendanceRecord->departure_time ?? '-' }}
+                {{ $application->arrival_time ?? '-' }} ~ {{ $application->departure_time ?? '-' }}
             </div>
         </div>
         
-        <div class="form-row">
-            <div class="form-label">休憩</div>
-            <div class="form-value">
-                @if($attendanceRecord->start_break_time1 && $attendanceRecord->end_break_time1)
-                    {{ $attendanceRecord->start_break_time1 }} ~ {{ $attendanceRecord->end_break_time1 }}
-                @else
-                    -
-                @endif
-            </div>
-        </div>
+        @php
+            $breaktimes = $application->breaktimes ?? collect();
+        @endphp
         
-        <div class="form-row">
-            <div class="form-label">休憩2</div>
-            <div class="form-value">
-                @if($attendanceRecord->start_break_time2 && $attendanceRecord->end_break_time2)
-                    {{ $attendanceRecord->start_break_time2 }} ~ {{ $attendanceRecord->end_break_time2 }}
-                @else
-                    -
-                @endif
+        @if($breaktimes->isEmpty())
+            <div class="form-row">
+                <div class="form-label">休憩</div>
+                <div class="form-value">-</div>
             </div>
-        </div>
+        @else
+            @foreach($breaktimes as $index => $breaktime)
+                <div class="form-row">
+                    <div class="form-label">{{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}</div>
+                    <div class="form-value">
+                        {{ $breaktime->start_break_time ?? '-' }} ~ {{ $breaktime->end_break_time1 ?? '-' }}
+                    </div>
+                </div>
+            @endforeach
+        @endif
         
         <div class="form-row">
             <div class="form-label">備考</div>
             <div class="form-value">
-                {{ $attendanceRecord->note ?? '-' }}
+                {{ $application->note ?? '-' }}
             </div>
         </div>
         
-        <div class="form-actions">
-            @if($isPending)
-                {{-- 申請中の場合：承認ボタンのみ --}}
-                <form action="{{ route('timelog.approve') }}" method="post" style="display: inline-block;">
-                    @csrf
-                    <input type="hidden" name="time_id" value="{{ $attendanceRecord->id }}">
-                    <input type="hidden" name="date" value="{{ $date->format('Y-m-d') }}">
-                    <input type="hidden" name="user_id" value="{{ $targetUser->id }}">
-                    <input type="hidden" name="from_application_detail" value="1">
-                    <button type="submit" class="btn-approve">承認</button>
-                </form>
-            @else
-                {{-- 承認済みの場合：背景灰色、テキスト白で「承認済み」を表示 --}}
-                <div class="approved-status">承認済み</div>
-            @endif
-        </div>
+    </div>
+
+    <div class="form-actions">
+        @if($isPending)
+            {{-- 申請中の場合：承認ボタンのみ --}}
+            <form action="{{ route('timelog.approve') }}" method="post" class="approve-form">
+                @csrf
+                <input type="hidden" name="application_id" value="{{ $application->id }}">
+                <input type="hidden" name="date" value="{{ $date->format('Y-m-d') }}">
+                <input type="hidden" name="user_id" value="{{ $targetUser->id }}">
+                <input type="hidden" name="from_application_detail" value="1">
+                <button type="submit" class="btn-approve">承認</button>
+            </form>
+        @else
+            {{-- 承認済みの場合：背景灰色、テキスト白で「承認済み」を表示 --}}
+            <div class="approved-status">承認済み</div>
+        @endif
     </div>
 </div>
 @endsection

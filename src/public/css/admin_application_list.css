@@ -37,8 +37,9 @@
 
 .application-tabs {
     display: flex;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 40px;
+    position: relative;
+    gap: 24px;
 }
 
 .tab-link {
@@ -47,7 +48,6 @@
     color: #666666;
     font-size: 16px;
     font-weight: 500;
-    border-bottom: 2px solid transparent;
     transition: all 0.3s ease;
 }
 
@@ -57,7 +57,16 @@
 
 .tab-link.active {
     color: #000000;
-    border-bottom-color: #000000;
+}
+
+.application-tabs::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 1px;
+    background-color: #000000;
 }
 
 /* ========================================
@@ -67,8 +76,8 @@
 .application-table-container {
     background-color: #ffffff;
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .application-table {
@@ -78,7 +87,7 @@
 }
 
 .application-table thead {
-    background-color: #f8f9fa;
+    background-color: #ffffff;
 }
 
 .application-table th {
@@ -86,21 +95,17 @@
     text-align: center;
     font-weight: 600;
     color: #000000;
-    border-bottom: 2px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef;
 }
 
 .application-table td {
     padding: 16px 12px;
     border-bottom: 1px solid #e9ecef;
-    color: #000000;
-}
-
-.application-row:nth-child(even) {
-    background-color: #f8f9fa;
+    color: #333333;
 }
 
 .application-row:hover {
-    background-color: #e9ecef;
+    background-color: #f8f9fa;
 }
 
 /* カラム幅の調整 */
@@ -240,16 +245,6 @@
 @media (max-width: 480px) {
     .application-tabs {
         flex-direction: column;
-    }
-
-    .tab-link {
-        border-bottom: none;
-        border-left: 2px solid transparent;
-    }
-
-    .tab-link.active {
-        border-bottom: none;
-        border-left-color: #000000;
     }
 
     .application-table {

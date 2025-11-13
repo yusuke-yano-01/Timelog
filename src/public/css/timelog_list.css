@@ -40,27 +40,30 @@
 
 .month-navigation {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    gap: 40px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 12px 20px;
 }
 
 .nav-link {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     text-decoration: none;
     color: #333333;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 4px;
+    padding: 6px 12px;
+    border-radius: 8px;
     transition: all 0.3s ease;
 }
 
 .nav-link:hover {
-    background-color: #e0e0e0;
+    background-color: #f0f0f0;
     color: #000000;
 }
 
@@ -76,18 +79,18 @@
 .current-month {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 18px;
+    gap: 8px;
+    font-size: 17px;
     font-weight: 600;
     color: #333333;
 }
 
 .calendar-icon {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .month-year {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
 }
 
@@ -97,9 +100,10 @@
 
 .timelog-table-container {
     background-color: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
+    border-radius: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 0 12px;
 }
 
 .timelog-table {
@@ -109,19 +113,19 @@
 }
 
 .timelog-table thead {
-    background-color: #f8f9fa;
+    background-color: #ffffff;
 }
 
 .timelog-table th {
-    padding: 16px 12px;
+    padding: 12px 8px;
     text-align: center;
     font-weight: 600;
     color: #000000;
-    border-bottom: 2px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef;
 }
 
 .timelog-table td {
-    padding: 16px 12px;
+    padding: 12px 8px;
     border-bottom: 1px solid #e9ecef;
     color: #333333;
 }
@@ -247,4 +251,32 @@
     .action-column {
         width: 8%;
     }
+}
+
+/* ========================================
+   CSVダウンロードボタン
+   ======================================== */
+
+.csv-download-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+    padding: 0 20px;
+}
+
+.btn-csv-download {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #000000;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-csv-download:hover {
+    background-color: #333333;
+    color: #ffffff;
 }

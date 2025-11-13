@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/attendance.css') }}">
+<link rel="stylesheet" href="{{ asset('css/attendance.css') }}?v={{ time() }}">
 @endsection
 
 @section('content')
@@ -14,7 +14,7 @@
         @elseif(!$todayAttendance->departure_time)
             勤務中
         @else
-            勤務終了
+            退勤済
         @endif
     </div>
     

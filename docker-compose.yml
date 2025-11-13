@@ -4,8 +4,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./docker/nginx:/etc/nginx/conf.d
-      - ./src:/var/www/
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./src:/var/www
     depends_on:
       - php
 

@@ -20,6 +20,11 @@ use App\Http\Controllers\TimelogController;
 
 Route::get('/', function () {
     if (Auth::check()) {
+        // 管理者の場合は当日勤怠一覧画面へ
+        if (Auth::user()->actor_id === 1) {
+            return redirect('/admin/attendance/list');
+        }
+        // スタッフの場合は出勤・退勤画面へ
         return redirect()->action([AttendanceController::class, 'index']);
     }
     return redirect('/auth/login');
@@ -38,6 +43,7 @@ Route::get('/timelog/detail', [TimelogController::class, 'detail'])->middleware(
 Route::match(['GET', 'POST'], '/timelog/update', [TimelogController::class, 'update'])->middleware('auth')->name('timelog.update');
 Route::post('/timelog/approve', [TimelogController::class, 'approve'])->middleware('auth')->name('timelog.approve');
 Route::get('/timelog/application', [TimelogController::class, 'application'])->middleware('auth')->name('timelog.application');
+Route::get('/timelog/csv', [TimelogController::class, 'downloadCsv'])->middleware('auth')->name('timelog.csv');
 
 // 認証関連のルート
 Route::group(['prefix' => 'auth'], function() {

@@ -37,8 +37,8 @@
                 @forelse($applications as $application)
                 <tr class="application-row">
                     <td class="status-cell">
-                        <span class="status-badge {{ $application->application_flg ? 'pending' : 'approved' }}">
-                            {{ $application->application_flg ? '承認待ち' : '承認済み' }}
+                        <span class="status-badge {{ $application->application_flg === 1 ? 'pending' : 'approved' }}">
+                            {{ $application->application_flg === 1 ? '承認待ち' : '承認済み' }}
                         </span>
                     </td>
                     <td class="name-cell">{{ $application->user->name }}</td>

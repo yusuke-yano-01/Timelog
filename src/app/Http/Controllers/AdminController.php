@@ -59,6 +59,7 @@ class AdminController extends Controller
         foreach ($staffs as $staff) {
             $attendance = Time::where('user_id', $staff->id)
                 ->where('date', $targetDate->format('Y-m-d'))
+                ->with('breaktimes')
                 ->first();
             
             $attendanceRecords[] = [
@@ -93,18 +94,13 @@ class AdminController extends Controller
     {
         $totalBreakMinutes = 0;
         
-        // 休憩1
-        if ($record->start_break_time1 && $record->end_break_time1) {
-            $start1 = Carbon::createFromFormat('H:i', $record->start_break_time1);
-            $end1 = Carbon::createFromFormat('H:i', $record->end_break_time1);
-            $totalBreakMinutes += $end1->diffInMinutes($start1);
-        }
-        
-        // 休憩2
-        if ($record->start_break_time2 && $record->end_break_time2) {
-            $start2 = Carbon::createFromFormat('H:i', $record->start_break_time2);
-            $end2 = Carbon::createFromFormat('H:i', $record->end_break_time2);
-            $totalBreakMinutes += $end2->diffInMinutes($start2);
+        // breaktimesリレーションから休憩時間を取得
+        foreach ($record->breaktimes as $breaktime) {
+            if ($breaktime->start_break_time && $breaktime->end_break_time1) {
+                $start = Carbon::createFromFormat('H:i', $breaktime->start_break_time);
+                $end = Carbon::createFromFormat('H:i', $breaktime->end_break_time1);
+                $totalBreakMinutes += $end->diffInMinutes($start);
+            }
         }
         
         if ($totalBreakMinutes > 0) {
@@ -130,19 +126,14 @@ class AdminController extends Controller
         
         $totalMinutes = $departure->diffInMinutes($arrival);
         
-        // 休憩時間を差し引く
+        // 休憩時間を差し引く（breaktimesリレーションから取得）
         $breakMinutes = 0;
-        
-        if ($record->start_break_time1 && $record->end_break_time1) {
-            $start1 = Carbon::createFromFormat('H:i', $record->start_break_time1);
-            $end1 = Carbon::createFromFormat('H:i', $record->end_break_time1);
-            $breakMinutes += $end1->diffInMinutes($start1);
-        }
-        
-        if ($record->start_break_time2 && $record->end_break_time2) {
-            $start2 = Carbon::createFromFormat('H:i', $record->start_break_time2);
-            $end2 = Carbon::createFromFormat('H:i', $record->end_break_time2);
-            $breakMinutes += $end2->diffInMinutes($start2);
+        foreach ($record->breaktimes as $breaktime) {
+            if ($breaktime->start_break_time && $breaktime->end_break_time1) {
+                $start = Carbon::createFromFormat('H:i', $breaktime->start_break_time);
+                $end = Carbon::createFromFormat('H:i', $breaktime->end_break_time1);
+                $breakMinutes += $end->diffInMinutes($start);
+            }
         }
         
         $workMinutes = $totalMinutes - $breakMinutes;
@@ -177,7 +168,7 @@ class AdminController extends Controller
     {
         $status = $request->get('status', 'pending'); // pending or approved
 
-        $query = Time::with('user')
+        $query = \App\Models\Application::with(['user', 'time'])
             ->whereHas('user', function($q) {
                 $q->where('registeredflg', true)
                   ->where('actor_id', '!=', 1); // 管理者を除外
@@ -185,9 +176,9 @@ class AdminController extends Controller
             ->orderBy('date', 'desc');
 
         if ($status === 'pending') {
-            $query->where('application_flg', true);
+            $query->where('application_flg', 1); // 申請中
         } else {
-            $query->where('application_flg', false);
+            $query->where('application_flg', 0); // 承認済み
         }
 
         $applications = $query->get();
@@ -222,15 +213,28 @@ class AdminController extends Controller
         
         $date = Carbon::create($year, $month, $day);
         
-        // 指定された日の勤怠データを取得
+        // 指定された日の勤怠データを取得（休憩時間も一緒に取得）
         $attendanceRecord = Time::where('user_id', $targetUser->id)
             ->where('date', $date->format('Y-m-d'))
+            ->with('breaktimes')
             ->first();
+        
+        // 申請情報を取得
+        $application = null;
+        if ($attendanceRecord) {
+            $application = \App\Models\Application::where('time_id', $attendanceRecord->id)
+                ->with('breaktimes')
+                ->first();
+        }
+        
+        $isAdmin = true; // 管理者用の画面なのでtrue
         
         return view('timelog_detail', compact(
             'attendanceRecord',
+            'application',
             'date',
-            'targetUser'
+            'targetUser',
+            'isAdmin'
         ));
     }
 
@@ -261,19 +265,20 @@ class AdminController extends Controller
         
         $date = Carbon::create($year, $month, $day);
         
-        // 指定された日の勤怠データを取得
-        $attendanceRecord = Time::where('user_id', $targetUser->id)
+        // 指定された日の申請データを取得
+        $application = \App\Models\Application::where('user_id', $targetUser->id)
             ->where('date', $date->format('Y-m-d'))
+            ->with(['time', 'breaktimes'])
             ->first();
 
-        if (!$attendanceRecord) {
-            abort(404, 'Attendance record not found.');
+        if (!$application) {
+            abort(404, 'Application not found.');
         }
 
-        $isPending = $attendanceRecord->application_flg;
+        $isPending = $application->application_flg === 1;
         
         return view('admin.application_detail', compact(
-            'attendanceRecord',
+            'application',
             'date',
             'targetUser',
             'isPending'

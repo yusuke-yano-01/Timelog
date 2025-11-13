@@ -13,11 +13,23 @@
   @yield('css')
 </head>
 
-<body class="@if(request()->is('auth/*')) auth-page @endif">
+@php
+  $bodyClasses = [];
+
+  if (request()->is('auth/*') || request()->is('admin/login')) {
+    $bodyClasses[] = 'auth-page';
+  }
+
+  if (Auth::check()) {
+    $bodyClasses[] = 'app-page';
+  }
+@endphp
+
+<body class="{{ implode(' ', $bodyClasses) }}">
   <header class="header">
     <div class="header__inner">
       <div class="header-utilities">
-        <a class="header__logo" href="/">
+        <a class="header__logo" href="@if(Auth::check() && Auth::user()->actor_id === 1){{ route('admin.attendance.list') }}@else/@endif">
           <img src="{{ asset('assets/images/logo.svg') }}" alt="CT COACHTECH" class="header__logo-image">
         </a>
         <nav class="header-nav">
@@ -48,13 +60,6 @@
                   </form>
                 @endif
               </div>
-            @elseif (request()->path() === 'auth/login')
-              <a class="header-nav__link" href="/auth/register">register</a>
-            @elseif (request()->path() === 'auth/register')
-              <a class="header-nav__link" href="/auth/login">login</a>
-            @else
-              <a class="header-nav__link" href="/auth/login">login</a>
-              <a class="header-nav__link" href="/auth/register">register</a>
             @endif
         </nav>
       </div>

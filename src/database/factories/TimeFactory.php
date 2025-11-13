@@ -23,12 +23,7 @@ class TimeFactory extends Factory
             'date' => $this->faker->date(),
             'arrival_time' => sprintf('%02d:%s', $arrivalHour, $arrivalMinute),
             'departure_time' => sprintf('%02d:%s', $departureHour, $departureMinute),
-            'start_break_time1' => $this->faker->optional()->time('H:i'),
-            'end_break_time1' => $this->faker->optional()->time('H:i'),
-            'start_break_time2' => $this->faker->optional()->time('H:i'),
-            'end_break_time2' => $this->faker->optional()->time('H:i'),
             'note' => $this->faker->optional()->sentence(),
-            'application_flg' => $this->faker->optional()->boolean(),
         ];
     }
 }

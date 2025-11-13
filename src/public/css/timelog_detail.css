@@ -6,7 +6,7 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f5f5f5;
+    background-color: transparent;
     min-height: 100vh;
 }
 
@@ -39,25 +39,49 @@
    ======================================== */
 
 .timelog-detail-form {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+}
+
+.timelog-detail-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-section {
     background-color: #ffffff;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    overflow: hidden;
 }
 
 .form-row {
     display: flex;
     align-items: center;
-    padding: 20px 0;
-    border-bottom: 1px solid #e9ecef;
+    gap: 32px;
+    padding: 26px 24px;
+    background-color: #ffffff;
 }
 
-.form-row:last-of-type {
+.form-section > .form-row,
+.form-section .break-rows-wrapper > .form-row,
+.form-section .additional-break-rows > .form-row {
+    border-bottom: 1px solid #e5e7eb;
+    margin: 0;
+}
+
+.form-section > .form-row:last-of-type {
     border-bottom: none;
 }
 
+.form-row-breaks {
+    align-items: flex-start;
+}
+
 .form-label {
-    width: 120px;
+    width: 170px;
     font-size: 16px;
     font-weight: 500;
     color: #333333;
@@ -69,6 +93,17 @@
     font-size: 16px;
     color: #333333;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding-left: 8px;
+}
+
+.form-value-note {
+    align-items: flex-start;
+    min-height: 80px;
+    padding-top: 12px;
+    padding-left: 8px;
 }
 
 .year {
@@ -90,8 +125,87 @@
 .form-input-group {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     flex: 1;
+}
+
+.form-value-breaks {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.break-rows-wrapper {
+    display: block;
+}
+
+.form-value-break {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    padding-left: 8px;
+    min-height: 52px;
+}
+
+.break-row-inputs {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.additional-break-rows {
+    display: block;
+}
+
+.break-row-label {
+    font-size: 15px;
+    color: #1f2937;
+    font-weight: 500;
+}
+
+.btn-add-break,
+.btn-remove-break {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #000000;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+.btn-add-break {
+    margin-left: auto;
+}
+
+.btn-remove-break {
+    margin-left: auto;
+}
+
+.btn-add-break:hover,
+.btn-remove-break:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.break-readonly {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+}
+
+.break-readonly-label {
+    font-weight: 500;
+    color: #1f2937;
 }
 
 .time-input {
@@ -126,6 +240,7 @@
 
 .form-textarea-group {
     flex: 1;
+    min-height: 80px;
 }
 
 .note-textarea {
@@ -164,9 +279,7 @@
 .form-actions {
     display: flex;
     justify-content: flex-end;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #e9ecef;
+    margin-top: 8px;
 }
 
 .btn-modify {
@@ -187,7 +300,7 @@
 
 .btn-approve {
     padding: 12px 24px;
-    background-color: #059669;
+    background-color: #000000;
     color: #ffffff;
     border: none;
     border-radius: 4px;
@@ -199,7 +312,7 @@
 }
 
 .btn-approve:hover {
-    background-color: #047857;
+    background-color: #333333;
 }
 
 .approval-message {
@@ -222,15 +335,11 @@
         font-size: 24px;
     }
 
-    .timelog-detail-form {
-        padding: 20px;
-    }
-
     .form-row {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
-        padding: 15px 0;
+        padding: 18px 20px;
     }
 
     .form-label {
@@ -247,8 +356,18 @@
         justify-content: flex-start;
     }
 
+    .form-value-break {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .break-row-inputs {
+        width: 100%;
+    }
+
     .time-input {
-        width: 100px;
+        width: 100%;
         font-size: 14px;
     }
 
@@ -263,10 +382,6 @@
 }
 
 @media (max-width: 480px) {
-    .timelog-detail-form {
-        padding: 15px;
-    }
-
     .form-input-group {
         flex-direction: column;
         align-items: flex-start;
@@ -279,5 +394,13 @@
 
     .separator {
         align-self: center;
+    }
+
+    .form-value-break {
+        width: 100%;
+    }
+
+    .btn-remove-break {
+        align-self: flex-start;
     }
 }
