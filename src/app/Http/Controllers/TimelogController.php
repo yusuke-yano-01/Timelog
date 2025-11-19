@@ -289,7 +289,29 @@ class TimelogController extends Controller
             'note' => $request->get('note'),
         ];
         
-        // 休憩時間データ
+        // バリデーション
+        $errors = [];
+        
+        // 備考欄が未入力の場合
+        if (empty($timeData['note'])) {
+            $errors['note'] = '備考を記入してください';
+        }
+        
+        // 出勤時間と退勤時間のバリデーション
+        if (!empty($timeData['arrival_time']) && !empty($timeData['departure_time'])) {
+            $arrivalTime = Carbon::createFromFormat('H:i', $timeData['arrival_time']);
+            $departureTime = Carbon::createFromFormat('H:i', $timeData['departure_time']);
+            
+            if ($arrivalTime->greaterThanOrEqualTo($departureTime)) {
+                if ($isAdmin) {
+                    $errors['arrival_time'] = '出勤時間もしくは退勤時間が不適切な値です';
+                } else {
+                    $errors['arrival_time'] = '出勤時間が不適切な値です';
+                }
+            }
+        }
+        
+        // 休憩時間のバリデーション
         $breakTimesData = collect($request->input('breaktimes', []))
             ->map(function ($breaktime) {
                 return [
@@ -303,6 +325,38 @@ class TimelogController extends Controller
             ->sortBy('start_break_time')
             ->values()
             ->all();
+        
+        if (!empty($timeData['departure_time'])) {
+            $departureTime = Carbon::createFromFormat('H:i', $timeData['departure_time']);
+            
+            foreach ($breakTimesData as $breakTime) {
+                if (!empty($breakTime['start_break_time'])) {
+                    $startBreakTime = Carbon::createFromFormat('H:i', $breakTime['start_break_time']);
+                    if ($startBreakTime->greaterThanOrEqualTo($departureTime)) {
+                        $errors['breaktime'] = '休憩時間が不適切な値です';
+                        break;
+                    }
+                }
+                
+                if (!empty($breakTime['end_break_time1'])) {
+                    $endBreakTime = Carbon::createFromFormat('H:i', $breakTime['end_break_time1']);
+                    if ($endBreakTime->greaterThanOrEqualTo($departureTime)) {
+                        if ($isAdmin) {
+                            $errors['breaktime'] = '休憩時間もしくは退勤時間が不適切な値です';
+                        } else {
+                            $errors['breaktime'] = '休憩時間もしくは退勤時間が不適切な値です';
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        
+        // バリデーションエラーがある場合はリダイレクト
+        if (!empty($errors)) {
+            return back()->withErrors($errors)->withInput();
+        }
+        
         
         // 空の値をnullに変換
         foreach ($timeData as $key => $value) {
@@ -532,20 +586,24 @@ class TimelogController extends Controller
         
         if ($fromApplicationDetail) {
             // 申請詳細画面に戻る
+            // $dateがCarbonオブジェクトの場合はそのまま使用、文字列の場合はパース
+            $dateObj = $date instanceof Carbon ? $date : Carbon::parse($date);
             $redirectParams = [
                 'id' => $application->user_id,
-                'year' => Carbon::createFromFormat('Y-m-d', $date)->year,
-                'month' => Carbon::createFromFormat('Y-m-d', $date)->month,
-                'day' => Carbon::createFromFormat('Y-m-d', $date)->day,
+                'year' => $dateObj->year,
+                'month' => $dateObj->month,
+                'day' => $dateObj->day,
             ];
             return redirect()->route('admin.application.detail', $redirectParams)->with('success', '申請を承認しました。');
         }
         
         // 通常の詳細画面に戻る場合
+        // $application->dateがCarbonオブジェクトの場合はそのまま使用、文字列の場合はパース
+        $applicationDate = $application->date instanceof Carbon ? $application->date : Carbon::parse($application->date);
         $detailParams = [
-            'year' => Carbon::createFromFormat('Y-m-d', $application->date)->year,
-            'month' => Carbon::createFromFormat('Y-m-d', $application->date)->month,
-            'day' => Carbon::createFromFormat('Y-m-d', $application->date)->day,
+            'year' => $applicationDate->year,
+            'month' => $applicationDate->month,
+            'day' => $applicationDate->day,
         ];
         
         if ($userId) {

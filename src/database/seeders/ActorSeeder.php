@@ -13,12 +13,15 @@ class ActorSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Actor::create([
-            'name' => '管理者',
-        ]);
+        // IDを指定して作成（既に存在する場合は更新しない）
+        \App\Models\Actor::firstOrCreate(
+            ['id' => 1],
+            ['name' => '管理者']
+        );
         
-        \App\Models\Actor::create([
-            'name' => '従業員',
-        ]);
+        \App\Models\Actor::firstOrCreate(
+            ['id' => 2],
+            ['name' => '従業員']
+        );
     }
 }
