@@ -132,3 +132,34 @@
     margin-bottom: 15px;
     font-size: 14px;
 }
+
+/* ========================================
+   レスポンシブ対応
+   ======================================== */
+
+/* PC (1400-1540px) */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .attendance-container {
+        padding: 25px;
+    }
+}
+
+/* タブレット (768-850px) */
+@media (min-width: 768px) and (max-width: 850px) {
+    .attendance-container {
+        padding: 20px;
+    }
+
+    .current-time {
+        font-size: 50px;
+    }
+
+    .btn-clock-in,
+    .btn-clock-out,
+    .btn-break-start,
+    .btn-break-end {
+        width: 250px;
+        height: 80px;
+        font-size: 24px;
+    }
+}

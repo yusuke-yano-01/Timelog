@@ -20,17 +20,30 @@ class AdminController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
+        ], [
+            'email.required' => 'メールアドレスを入力してください',
+            'email.email' => '有効なメールアドレスを入力してください。',
+            'password.required' => 'パスワードを入力してください',
+            'password.min' => 'パスワードは6文字以上で入力してください。',
         ]);
 
         $credentials = $request->only(['email', 'password']);
 
         if (Auth::attempt($credentials)) {
+            // 管理者（actor_id = 1）でない場合はログインを拒否
+            if (Auth::user()->actor_id !== 1) {
+                Auth::logout();
+                return back()->withErrors([
+                    'login' => '管理者アカウントでログインしてください。',
+                ]);
+            }
+            
             $request->session()->regenerate();
             return redirect('/admin/attendance/list');
         }
 
         return back()->withErrors([
-            'login' => 'メールアドレスまたはパスワードが正しくありません。',
+            'login' => 'ログイン情報が登録されていません',
         ]);
     }
 
@@ -52,6 +65,7 @@ class AdminController extends Controller
         // すべての登録スタッフを取得（registeredflgがtrueでactor_idが1でないユーザー）
         $staffs = User::where('registeredflg', true)
             ->where('actor_id', '!=', 1) // 管理者を除外
+            ->orderBy('name')
             ->get();
         
         // 各スタッフの当日の勤怠データを取得
@@ -192,11 +206,6 @@ class AdminController extends Controller
      */
     public function showAttendanceDetail(Request $request, $id)
     {
-        // 管理者のみアクセス可能であることを確認
-        if (Auth::user()->actor_id !== 1) {
-            abort(403, 'Unauthorized access.');
-        }
-
         $targetUser = User::find($id);
         if (!$targetUser) {
             abort(404, 'Staff not found.');
@@ -229,7 +238,7 @@ class AdminController extends Controller
         
         $isAdmin = true; // 管理者用の画面なのでtrue
         
-        return view('timelog_detail', compact(
+        return view('staff.timelog_detail', compact(
             'attendanceRecord',
             'application',
             'date',

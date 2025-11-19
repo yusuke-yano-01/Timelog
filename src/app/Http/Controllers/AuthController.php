@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Actor;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
@@ -33,7 +34,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'login' => 'メールアドレスまたはパスワードが正しくありません。',
+            'login' => 'ログイン情報が登録されていません',
         ]);
     }
 
@@ -44,6 +45,10 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        // actorsテーブルにデータが存在しない場合は作成
+        Actor::firstOrCreate(['id' => 1], ['name' => '管理者']);
+        Actor::firstOrCreate(['id' => 2], ['name' => '従業員']);
+        
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,

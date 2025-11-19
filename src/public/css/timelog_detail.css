@@ -77,7 +77,7 @@
 }
 
 .form-row-breaks {
-    align-items: flex-start;
+    align-items: center;
 }
 
 .form-label {
@@ -86,6 +86,8 @@
     font-weight: 500;
     color: #333333;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
 }
 
 .form-value {
@@ -325,6 +327,29 @@
 /* ========================================
    レスポンシブ対応
    ======================================== */
+
+/* PC (1400-1540px) */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .timelog-detail-container {
+        padding: 25px;
+    }
+}
+
+/* タブレット (768-850px) */
+@media (min-width: 768px) and (max-width: 850px) {
+    .timelog-detail-container {
+        padding: 15px;
+    }
+
+    .form-row {
+        padding: 20px 18px;
+    }
+
+    .form-label {
+        width: 150px;
+        font-size: 15px;
+    }
+}
 
 @media (max-width: 768px) {
     .timelog-detail-container {

@@ -14,8 +14,10 @@ class ExampleTest extends TestCase
      */
     public function test_example()
     {
+        // ログインしていない場合はリダイレクトされるため、302を期待
         $response = $this->get('/');
 
-        $response->assertStatus(200);
+        // 認証が必要な場合は302リダイレクト、認証不要の場合は200
+        $response->assertStatus(302);
     }
 }

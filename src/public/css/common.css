@@ -183,6 +183,27 @@ html {
 }
 
 /* レスポンシブ対応 */
+/* PC (1400-1540px) */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .header__inner {
+        max-width: 100%;
+        padding: 0 15px;
+    }
+}
+
+/* タブレット (768-850px) */
+@media (min-width: 768px) and (max-width: 850px) {
+    .header__inner {
+        padding: 0 15px;
+    }
+
+    .header-nav__link,
+    .header-nav__logout-btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+
 @media (max-width: 768px) {
     .header__logo-image {
         height: 35px;
