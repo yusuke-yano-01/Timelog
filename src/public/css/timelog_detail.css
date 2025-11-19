@@ -243,6 +243,8 @@
 .form-textarea-group {
     flex: 1;
     min-height: 80px;
+    min-width: 300px;
+    width: 100%;
 }
 
 .note-textarea {
@@ -343,11 +345,41 @@
 
     .form-row {
         padding: 20px 18px;
+        gap: 24px;
     }
 
     .form-label {
         width: 150px;
         font-size: 15px;
+        flex-shrink: 0;
+    }
+
+    .form-value {
+        font-size: 15px;
+        padding-left: 0;
+    }
+
+    /* 備考テキストエリアのスタイル調整（大きくする） */
+    .form-textarea-group {
+        flex: 1;
+        min-width: 300px;
+        max-width: 100%;
+        padding-left: 0;
+        width: 100%;
+    }
+
+    .note-textarea {
+        width: 100% !important;
+        min-height: 120px;
+        padding: 12px;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+    .form-value-note {
+        padding-left: 0;
+        padding-top: 10px;
+        width: 100%;
     }
 }
 

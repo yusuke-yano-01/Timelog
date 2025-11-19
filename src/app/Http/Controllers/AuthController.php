@@ -45,17 +45,30 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        // RegisterRequestのバリデーションが自動的に実行される
+        // バリデーションに失敗した場合は、自動的にback()でリダイレクトされ、エラーメッセージがセッションに保存される
+        
         // actorsテーブルにデータが存在しない場合は作成
         Actor::firstOrCreate(['id' => 1], ['name' => '管理者']);
         Actor::firstOrCreate(['id' => 2], ['name' => '従業員']);
         
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'actor_id' => 2, // 従業員のactor_id
-            'registeredflg' => true,
-        ]);
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'actor_id' => 2, // 従業員のactor_id
+                'registeredflg' => true,
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // データベースレベルのエラー（例: ユニーク制約違反）が発生した場合
+            if ($e->getCode() == 23000) {
+                return back()->withErrors([
+                    'email' => 'このメールアドレスは既に使用されています。',
+                ])->withInput();
+            }
+            throw $e;
+        }
         
         // メール認証通知を送信
         event(new Registered($user));
