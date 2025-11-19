@@ -272,6 +272,24 @@
    レスポンシブ対応
    ======================================== */
 
+/* PC (1400-1540px) */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .auth-container {
+        padding: 25px;
+    }
+}
+
+/* タブレット (768-850px) */
+@media (min-width: 768px) and (max-width: 850px) {
+    .auth-container {
+        padding: 20px;
+    }
+
+    .auth-form {
+        max-width: 480px;
+    }
+}
+
 @media (max-width: 768px) {
     .auth-container {
         padding: 20px 15px;

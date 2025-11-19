@@ -132,6 +132,29 @@
    レスポンシブ対応
    ======================================== */
 
+/* PC (1400-1540px) */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .staff-list-container {
+        padding: 25px;
+    }
+}
+
+/* タブレット (768-850px) */
+@media (min-width: 768px) and (max-width: 850px) {
+    .staff-list-container {
+        padding: 15px;
+    }
+
+    .staff-table {
+        font-size: 14px;
+    }
+
+    .staff-table th,
+    .staff-table td {
+        padding: 12px 8px;
+    }
+}
+
 @media (max-width: 768px) {
     .staff-list-container {
         padding: 15px;

@@ -188,6 +188,29 @@
    レスポンシブ対応
    ======================================== */
 
+/* PC (1400-1540px) */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .timelog-container {
+        padding: 25px;
+    }
+}
+
+/* タブレット (768-850px) */
+@media (min-width: 768px) and (max-width: 850px) {
+    .timelog-container {
+        padding: 15px;
+    }
+
+    .timelog-table {
+        font-size: 14px;
+    }
+
+    .timelog-table th,
+    .timelog-table td {
+        padding: 10px 6px;
+    }
+}
+
 @media (max-width: 768px) {
     .timelog-container {
         padding: 15px;
