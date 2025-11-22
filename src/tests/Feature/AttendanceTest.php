@@ -178,7 +178,7 @@ class AttendanceTest extends TestCase
         Breaktime::create([
             'time_id' => $time->id,
             'start_break_time' => Carbon::now()->format('H:i'),
-            'end_break_time1' => null,
+            'end_break_time' => null,
         ]);
 
         $response = $this->actingAs($user)->get('/attendance');
@@ -420,7 +420,7 @@ class AttendanceTest extends TestCase
         // 休憩記録が作成されていることを確認
         $breaktime = Breaktime::where('time_id', $time->id)
             ->whereNotNull('start_break_time')
-            ->whereNull('end_break_time1')
+            ->whereNull('end_break_time')
             ->first();
         $this->assertNotNull($breaktime);
     }
@@ -513,7 +513,7 @@ class AttendanceTest extends TestCase
         $breaktime = Breaktime::create([
             'time_id' => $time->id,
             'start_break_time' => Carbon::now()->format('H:i'),
-            'end_break_time1' => null,
+            'end_break_time' => null,
         ]);
 
         $response = $this->actingAs($user)->post('/attendance/end-break');
@@ -528,7 +528,7 @@ class AttendanceTest extends TestCase
         
         // 休憩終了時刻が記録されていることを確認
         $breaktime->refresh();
-        $this->assertNotNull($breaktime->end_break_time1);
+        $this->assertNotNull($breaktime->end_break_time);
     }
 
     /**
@@ -622,7 +622,7 @@ class AttendanceTest extends TestCase
         // 休憩記録が作成されていることを確認
         $breaktime = Breaktime::where('time_id', $time->id)
             ->whereNotNull('start_break_time')
-            ->whereNotNull('end_break_time1')
+            ->whereNotNull('end_break_time')
             ->first();
         $this->assertNotNull($breaktime);
     }

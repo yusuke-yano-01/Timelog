@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Actor;
 
 class UserSeeder extends Seeder
 {
@@ -14,18 +16,18 @@ class UserSeeder extends Seeder
     public function run()
     {
         // 管理者アカウントを作成
-        \App\Models\User::create([
+        User::create([
             'name' => '管理者',
             'email' => 'admin@example.com',
             'password' => \Illuminate\Support\Facades\Hash::make('123456'),
-            'actor_id' => 1, // 管理者のactor_id
+            'actor_id' => Actor::ADMIN_ID,
             'registeredflg' => true,
             'email_verified_at' => now(),
         ]);
 
         // 従業員のサンプルデータを作成（ファクトリーを使用）
-        \App\Models\User::factory(5)->create([
-            'actor_id' => 2, // 従業員のactor_id
+        User::factory(5)->create([
+            'actor_id' => Actor::STAFF_ID,
         ]);
     }
 }

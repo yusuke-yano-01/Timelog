@@ -7,6 +7,7 @@
 @section('content')
 <div class="application-container">
     <div class="application-header">
+        <div class="header-bar"></div>
         <h1 class="application-title">申請一覧</h1>
     </div>
     

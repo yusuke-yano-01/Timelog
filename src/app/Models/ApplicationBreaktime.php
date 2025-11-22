@@ -12,7 +12,7 @@ class ApplicationBreaktime extends Model
     protected $fillable = [
         'application_id',
         'start_break_time',
-        'end_break_time1',
+        'end_break_time',
     ];
 
     /**

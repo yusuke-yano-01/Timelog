@@ -4,9 +4,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminAttendanceController;
+use App\Http\Controllers\AdminApplicationController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\TimelogController;
+use App\Http\Controllers\TimelogUpdateController;
 use App\Http\Controllers\EmailVerificationController;
+use App\Models\Actor;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +30,7 @@ Route::get('/', function () {
             return redirect()->route('verification.notice');
         }
         // 管理者の場合は当日勤怠一覧画面へ
-        if (Auth::user()->actor_id === 1) {
+        if (Auth::user()->actor_id === Actor::ADMIN_ID) {
             return redirect('/admin/attendance/list');
         }
         // スタッフの場合は出勤・退勤画面へ
@@ -45,7 +49,7 @@ Route::post('/attendance/end-break', [AttendanceController::class, 'endBreak'])-
 // 勤怠一覧関連のルート
 Route::get('/timelog/list', [TimelogController::class, 'index'])->middleware(['auth', 'verified'])->name('timelog.list');
 Route::get('/timelog/detail', [TimelogController::class, 'detail'])->middleware(['auth', 'verified'])->name('timelog.detail');
-Route::match(['GET', 'POST'], '/timelog/update', [TimelogController::class, 'update'])->middleware(['auth', 'verified'])->name('timelog.update');
+Route::match(['GET', 'POST'], '/timelog/update', [TimelogUpdateController::class, 'update'])->middleware(['auth', 'verified'])->name('timelog.update');
 Route::post('/timelog/approve', [TimelogController::class, 'approve'])->middleware(['auth', 'verified'])->name('timelog.approve');
 Route::get('/timelog/application', [TimelogController::class, 'application'])->middleware(['auth', 'verified'])->name('timelog.application');
 Route::get('/timelog/csv', [TimelogController::class, 'downloadCsv'])->middleware(['auth', 'verified'])->name('timelog.csv');
@@ -71,11 +75,11 @@ Route::group(['prefix' => 'admin'], function() {
     Route::get('login', [AdminController::class, 'index']);
     Route::post('login', [AdminController::class, 'login']);
     Route::match(['GET', 'POST'], 'logout', [AdminController::class, 'logout']);
-    Route::get('attendance/list', [AdminController::class, 'attendanceList'])->middleware(['auth', 'verified'])->name('admin.attendance.list');
-    Route::get('attendance/{id}', [AdminController::class, 'showAttendanceDetail'])->middleware(['auth', 'verified'])->name('admin.attendance.detail');
+    Route::get('attendance/list', [AdminAttendanceController::class, 'attendanceList'])->middleware(['auth', 'verified'])->name('admin.attendance.list');
+    Route::get('attendance/{id}', [AdminAttendanceController::class, 'showAttendanceDetail'])->middleware(['auth', 'verified'])->name('admin.attendance.detail');
     Route::get('staff/list', [AdminController::class, 'staffList'])->middleware(['auth', 'verified'])->name('admin.staff.list');
 });
 
 // 申請一覧（管理者用）
-Route::get('/stamp_correction_request/list', [AdminController::class, 'applicationList'])->middleware(['auth', 'verified'])->name('admin.application.list');
-Route::get('/admin/application/detail/{id}', [AdminController::class, 'applicationDetail'])->middleware(['auth', 'verified'])->name('admin.application.detail');
+Route::get('/stamp_correction_request/list', [AdminApplicationController::class, 'applicationList'])->middleware(['auth', 'verified'])->name('admin.application.list');
+Route::get('/admin/application/detail/{id}', [AdminApplicationController::class, 'applicationDetail'])->middleware(['auth', 'verified'])->name('admin.application.detail');

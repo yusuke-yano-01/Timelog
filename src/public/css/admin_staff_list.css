@@ -17,13 +17,6 @@
     gap: 15px;
 }
 
-.header-bar {
-    width: 4px;
-    height: 28px;
-    background-color: #000000;
-    flex-shrink: 0;
-}
-
 .staff-list-title {
     font-size: 28px;
     font-weight: bold;
@@ -76,8 +69,8 @@
     text-align: center;
 }
 
-.staff-table th.name-column {
-    text-align: center !important;
+.staff-table-container .staff-table thead th.name-column {
+    text-align: center;
 }
 
 .email-column {
@@ -85,8 +78,8 @@
     text-align: center;
 }
 
-.staff-table th.email-column {
-    text-align: center !important;
+.staff-table-container .staff-table thead th.email-column {
+    text-align: center;
 }
 
 .attendance-column {
@@ -108,74 +101,13 @@
     text-align: center;
 }
 
-.detail-link {
-    display: inline-block;
-    color: #000000;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.detail-link:hover {
-    color: #666666;
-    text-decoration: underline;
-}
-
-.no-data {
-    text-align: center;
-    color: #666666;
-    font-style: italic;
-    padding: 40px;
-}
-
 /* ========================================
    レスポンシブ対応
    ======================================== */
 
-/* PC (1400-1540px) */
-@media (min-width: 1400px) and (max-width: 1540px) {
-    .staff-list-container {
-        padding: 25px;
-    }
-}
-
-/* タブレット (768-850px) */
-@media (min-width: 768px) and (max-width: 850px) {
-    .staff-list-container {
-        padding: 15px;
-    }
-
-    .staff-table {
-        font-size: 14px;
-    }
-
-    .staff-table th,
-    .staff-table td {
-        padding: 12px 8px;
-    }
-}
-
 @media (max-width: 768px) {
-    .staff-list-container {
-        padding: 15px;
-    }
-
     .staff-list-title {
         font-size: 24px;
-    }
-
-    .staff-table {
-        font-size: 14px;
-    }
-
-    .staff-table th,
-    .staff-table td {
-        padding: 12px 8px;
-    }
-
-    .detail-link {
-        padding: 4px 8px;
-        font-size: 12px;
     }
 }
 

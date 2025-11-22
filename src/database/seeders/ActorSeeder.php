@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Actor;
 
 class ActorSeeder extends Seeder
 {
@@ -14,13 +15,13 @@ class ActorSeeder extends Seeder
     public function run()
     {
         // IDを指定して作成（既に存在する場合は更新しない）
-        \App\Models\Actor::firstOrCreate(
-            ['id' => 1],
+        Actor::firstOrCreate(
+            ['id' => Actor::ADMIN_ID],
             ['name' => '管理者']
         );
         
-        \App\Models\Actor::firstOrCreate(
-            ['id' => 2],
+        Actor::firstOrCreate(
+            ['id' => Actor::STAFF_ID],
             ['name' => '従業員']
         );
     }

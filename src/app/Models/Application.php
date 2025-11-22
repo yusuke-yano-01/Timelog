@@ -9,6 +9,9 @@ class Application extends Model
 {
     use HasFactory;
 
+    const STATUS_PENDING = 1;
+    const STATUS_APPROVED = 0;
+
     protected $fillable = [
         'user_id',
         'time_id',

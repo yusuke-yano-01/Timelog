@@ -17,7 +17,7 @@ class CreateApplicationBreaktimesTable extends Migration
             $table->id();
             $table->foreignId('application_id')->constrained('applications')->onDelete('cascade');
             $table->string('start_break_time');
-            $table->string('end_break_time1');
+            $table->string('end_break_time');
             $table->timestamps();
         });
     }

@@ -1,64 +1,173 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 勤怠管理システム
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 環境構築
 
-## About Laravel
+### Docker ビルド
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. リポジトリをクローン
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```bash
+git clone https://github.com/yusuke-yano-01/Timelog.git
+cd Timelog
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2. Docker サービスを起動
 
-## Learning Laravel
+```bash
+docker-compose up -d --build
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+> **注意**: MySQL は、OS によって起動しない場合があるのでそれぞれの PC に合わせて `docker-compose.yml` ファイルを編集してください。
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Laravel 環境構築
 
-## Laravel Sponsors
+1. PHP コンテナにアクセス
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```bash
+docker-compose exec php bash
+```
 
-### Premium Partners
+2. 依存関係をインストール
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```bash
+composer install
+```
 
-## Contributing
+3. `.env.example`ファイルから`.env`を作成し、環境変数を変更
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+cp .env.example .env
+```
 
-## Code of Conduct
+4. アプリケーションキーを生成
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan key:generate
+```
 
-## Security Vulnerabilities
+5. データベースマイグレーション実行
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+php artisan migrate
+```
 
-## License
+6. データベースシーディング実行
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan db:seed
+```
+
+## 使用技術(実行環境)
+
+-   PHP 8.1
+-   Laravel 8.75
+-   MySQL 8.0.26
+-   Nginx 1.21.1
+-   Docker & Docker Compose
+
+## データベース構成
+
+### テーブル一覧
+
+-   `actors` - アクター（管理者、従業員など）
+-   `users` - ユーザー情報
+-   `times` - 勤怠記録
+-   `breaktimes` - 休憩時間
+-   `applications` - 修正申請
+-   `application_breaktimes` - 申請の休憩時間
+
+### テーブル詳細
+
+#### actors テーブル
+
+| カラム名   | 型        | 説明               |
+| ---------- | --------- | ------------------ |
+| id         | bigint    | 主キー（自動増分） |
+| name       | string    | アクター名         |
+| created_at | timestamp | 作成日時           |
+| updated_at | timestamp | 更新日時           |
+
+#### users テーブル
+
+| カラム名          | 型        | 説明                               |
+| ----------------- | --------- | ---------------------------------- |
+| id                | bigint    | 主キー（自動増分）                 |
+| actor_id          | bigint    | アクター ID（外部キー：actors.id） |
+| name              | string    | ユーザー名                         |
+| registeredflg     | boolean   | 登録フラグ（デフォルト：false）    |
+| break_flg         | boolean   | 休憩フラグ（デフォルト：false）    |
+| email             | string    | メールアドレス（ユニーク）         |
+| password          | string    | パスワード（ハッシュ化）           |
+| email_verified_at | timestamp | メール認証日時（nullable）         |
+| remember_token    | string    | リメンバートークン                 |
+| created_at        | timestamp | 作成日時                           |
+| updated_at        | timestamp | 更新日時                           |
+
+#### times テーブル
+
+| カラム名       | 型        | 説明                              |
+| -------------- | --------- | --------------------------------- |
+| id             | bigint    | 主キー（自動増分）                |
+| user_id        | bigint    | ユーザー ID（外部キー：users.id） |
+| date           | date      | 日付                              |
+| arrival_time   | string    | 出勤時間（nullable）              |
+| departure_time | string    | 退勤時間（nullable）              |
+| note           | string    | 備考（nullable）                  |
+| created_at     | timestamp | 作成日時                          |
+| updated_at     | timestamp | 更新日時                          |
+
+#### breaktimes テーブル
+
+| カラム名         | 型        | 説明                                              |
+| ---------------- | --------- | ------------------------------------------------- |
+| id               | bigint    | 主キー（自動増分）                                |
+| time_id          | bigint    | 勤怠記録 ID（外部キー：times.id、カスケード削除） |
+| start_break_time | string    | 休憩開始時間                                      |
+| end_break_time   | string    | 休憩終了時間（nullable）                          |
+| created_at       | timestamp | 作成日時                                          |
+| updated_at       | timestamp | 更新日時                                          |
+
+#### applications テーブル
+
+| カラム名        | 型        | 説明                                   |
+| --------------- | --------- | -------------------------------------- |
+| id              | bigint    | 主キー（自動増分）                     |
+| user_id         | bigint    | ユーザー ID（外部キー：users.id）      |
+| time_id         | bigint    | 勤怠記録 ID（外部キー：times.id）      |
+| date            | date      | 日付                                   |
+| arrival_time    | string    | 出勤時間                               |
+| departure_time  | string    | 退勤時間                               |
+| note            | string    | 備考（nullable）                       |
+| application_flg | integer   | 申請フラグ（1：承認待ち、0：承認済み） |
+| created_at      | timestamp | 作成日時                               |
+| updated_at      | timestamp | 更新日時                               |
+
+#### application_breaktimes テーブル
+
+| カラム名         | 型        | 説明                                                 |
+| ---------------- | --------- | ---------------------------------------------------- |
+| id               | bigint    | 主キー（自動増分）                                   |
+| application_id   | bigint    | 申請 ID（外部キー：applications.id、カスケード削除） |
+| start_break_time | string    | 休憩開始時間                                         |
+| end_break_time   | string    | 休憩終了時間                                         |
+| created_at       | timestamp | 作成日時                                             |
+| updated_at       | timestamp | 更新日時                                             |
+
+### リレーション
+
+-   `actors` 1 対多 `users`（1 つのアクターに複数のユーザーが属する）
+-   `users` 1 対多 `times`（1 人のユーザーに複数の勤怠記録が属する）
+-   `times` 1 対多 `breaktimes`（1 つの勤怠記録に複数の休憩時間が属する）
+-   `users` 1 対多 `applications`（1 人のユーザーに複数の申請が属する）
+-   `times` 1 対多 `applications`（1 つの勤怠記録に複数の申請が属する）
+-   `applications` 1 対多 `application_breaktimes`（1 つの申請に複数の休憩時間が属する）
+
+## ER 図
+
+<--- 作成した ER 図の画像 --- >
+
+## URL
+
+-   開発環境: http://localhost/
+-   phpMyAdmin: http://localhost:8080/
+-   MailHog Web UI: http://localhost:8025/

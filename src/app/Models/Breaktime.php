@@ -12,12 +12,12 @@ class Breaktime extends Model
     protected $fillable = [
         'time_id',
         'start_break_time',
-        'end_break_time1',
+        'end_break_time',
     ];
 
     protected $casts = [
         'start_break_time' => 'string',
-        'end_break_time1' => 'string',
+        'end_break_time' => 'string',
     ];
 
     /**

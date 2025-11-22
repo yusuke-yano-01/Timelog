@@ -46,7 +46,7 @@
                 <div class="form-row">
                     <div class="form-label">{{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}</div>
                     <div class="form-value">
-                        {{ $breaktime->start_break_time ?? '-' }} ~ {{ $breaktime->end_break_time1 ?? '-' }}
+                        {{ $breaktime->start_break_time ?? '-' }} ~ {{ $breaktime->end_break_time ?? '-' }}
                     </div>
                 </div>
             @endforeach

@@ -7,12 +7,10 @@
 }
 
 body {
-    margin: 0 !important;
-    padding: 0 !important;
     background-color: #ffffff;
 }
 
-body.app-page {
+.app-page {
     background-color: #f5f5f5;
 }
 
@@ -217,5 +215,255 @@ html {
     .header-nav__logout-btn {
         padding: 6px 12px;
         font-size: 14px;
+    }
+}
+
+/* ========================================
+   共通ページコンテナ
+   ======================================== */
+
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+/* ========================================
+   共通ヘッダー
+   ======================================== */
+
+.page-header {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-bar {
+    width: 4px;
+    height: 28px;
+    background-color: #000000;
+    flex-shrink: 0;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+}
+
+/* ========================================
+   共通テーブルスタイル
+   ======================================== */
+
+.table-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.table-container-rounded {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.base-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+.base-table thead {
+    background-color: #ffffff;
+}
+
+.base-table th {
+    padding: 16px 12px;
+    text-align: center;
+    font-weight: 600;
+    color: #000000;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.base-table td {
+    padding: 16px 12px;
+    border-bottom: 1px solid #e9ecef;
+    color: #333333;
+}
+
+.base-table-row:hover {
+    background-color: #f8f9fa;
+}
+
+/* ========================================
+   共通リンク
+   ======================================== */
+
+.detail-link {
+    display: inline-block;
+    color: #000000;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.detail-link:hover {
+    color: #666666;
+    text-decoration: underline;
+}
+
+.detail-link.disabled {
+    color: #999999;
+    cursor: default;
+    text-decoration: none;
+}
+
+/* ========================================
+   共通メッセージ
+   ======================================== */
+
+.no-data {
+    text-align: center;
+    color: #666666;
+    font-style: italic;
+    padding: 40px;
+}
+
+/* ========================================
+   共通ナビゲーション
+   ======================================== */
+
+.navigation-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 12px 20px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #333333;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: #f0f0f0;
+    color: #000000;
+}
+
+.nav-arrow {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.nav-text {
+    font-size: 16px;
+}
+
+.nav-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #333333;
+}
+
+.calendar-icon {
+    font-size: 18px;
+}
+
+/* ========================================
+   共通レスポンシブ対応
+   ======================================== */
+
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .page-container {
+        padding: 25px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+    .page-container {
+        padding: 15px;
+    }
+
+    .base-table {
+        font-size: 14px;
+    }
+
+    .base-table th,
+    .base-table td {
+        padding: 12px 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-container {
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    .base-table {
+        font-size: 14px;
+    }
+
+    .base-table th,
+    .base-table td {
+        padding: 12px 8px;
+    }
+
+    .detail-link {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    .navigation-container {
+        gap: 20px;
+    }
+
+    .nav-link {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .nav-display {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .base-table {
+        font-size: 12px;
+    }
+
+    .base-table th,
+    .base-table td {
+        padding: 8px 4px;
+    }
+
+    .navigation-container {
+        flex-direction: column;
+        gap: 15px;
     }
 }

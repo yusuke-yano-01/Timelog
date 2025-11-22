@@ -7,6 +7,7 @@
 @section('content')
 <div class="timelog-container">
     <div class="timelog-header">
+        <div class="header-bar"></div>
         <h1 class="timelog-title">
             @if(isset($targetUserId) && isset($targetUser))
                 {{ $targetUser->name }}さんの勤怠

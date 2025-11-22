@@ -17,13 +17,6 @@
     gap: 15px;
 }
 
-.header-bar {
-    width: 4px;
-    height: 28px;
-    background-color: #000000;
-    flex-shrink: 0;
-}
-
 .admin-attendance-title {
     font-size: 28px;
     font-weight: bold;
@@ -46,33 +39,6 @@
     padding: 12px 20px;
 }
 
-.date-navigation .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    text-decoration: none;
-    color: #333333;
-    font-size: 15px;
-    font-weight: 500;
-    padding: 6px 12px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.date-navigation .nav-link:hover {
-    background-color: #f0f0f0;
-    color: #000000;
-}
-
-.date-navigation .nav-arrow {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.date-navigation .nav-text {
-    font-size: 16px;
-}
-
 .current-date {
     display: flex;
     align-items: center;
@@ -80,10 +46,6 @@
     font-size: 17px;
     font-weight: 600;
     color: #333333;
-}
-
-.calendar-icon {
-    font-size: 18px;
 }
 
 .date-display {
@@ -145,8 +107,8 @@
     text-align: left;
 }
 
-.attendance-table th.name-column {
-    text-align: left !important;
+.attendance-table-container .attendance-table thead th.name-column {
+    text-align: left;
 }
 
 .time-column {
@@ -173,57 +135,11 @@
     text-align: center;
 }
 
-.detail-link {
-    display: inline-block;
-    color: #000000;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.detail-link:hover {
-    color: #666666;
-    text-decoration: underline;
-}
-
-.detail-link.disabled {
-    color: #999999;
-    cursor: default;
-    text-decoration: none;
-}
-
 /* ========================================
    レスポンシブ対応
    ======================================== */
 
-/* PC (1400-1540px) */
-@media (min-width: 1400px) and (max-width: 1540px) {
-    .admin-attendance-container {
-        padding: 25px;
-    }
-}
-
-/* タブレット (768-850px) */
-@media (min-width: 768px) and (max-width: 850px) {
-    .admin-attendance-container {
-        padding: 15px;
-    }
-
-    .attendance-table {
-        font-size: 14px;
-    }
-
-    .attendance-table th,
-    .attendance-table td {
-        padding: 12px 8px;
-    }
-}
-
 @media (max-width: 768px) {
-    .admin-attendance-container {
-        padding: 15px;
-    }
-
     .admin-attendance-title {
         font-size: 24px;
     }
@@ -232,27 +148,8 @@
         gap: 20px;
     }
 
-    .date-navigation .nav-link {
-        padding: 6px 12px;
-        font-size: 14px;
-    }
-
     .current-date {
         font-size: 16px;
-    }
-
-    .attendance-table {
-        font-size: 14px;
-    }
-
-    .attendance-table th,
-    .attendance-table td {
-        padding: 12px 8px;
-    }
-
-    .detail-link {
-        padding: 4px 8px;
-        font-size: 12px;
     }
 }
 

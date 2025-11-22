@@ -11,6 +11,22 @@
     </div>
     
     <div class="timelog-detail-form">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        
         <form action="{{ route('timelog.update') }}" method="post">
             @csrf
             <input type="hidden" name="time_id" value="{{ $attendanceRecord->id ?? '' }}">
@@ -46,7 +62,7 @@
                         $breaktimeRecords = collect(old('breaktimes'))->map(function ($break) {
                             return [
                                 'start_break_time' => $break['start'] ?? null,
-                                'end_break_time1' => $break['end'] ?? null,
+                                'end_break_time' => $break['end'] ?? null,
                             ];
                         });
                     } else {
@@ -54,14 +70,14 @@
                             $breaktimeRecords = $application->breaktimes->map(function ($breaktime) {
                                 return [
                                     'start_break_time' => $breaktime->start_break_time,
-                                    'end_break_time1' => $breaktime->end_break_time1,
+                                    'end_break_time' => $breaktime->end_break_time,
                                 ];
                             });
                         } elseif ($attendanceRecord) {
                             $breaktimeRecords = $attendanceRecord->breaktimes->map(function ($breaktime) {
                                 return [
                                     'start_break_time' => $breaktime->start_break_time,
-                                    'end_break_time1' => $breaktime->end_break_time1,
+                                    'end_break_time' => $breaktime->end_break_time,
                                 ];
                             });
                         }
@@ -73,7 +89,7 @@
                     if (!$firstBreakRecord) {
                         $firstBreakRecord = [
                             'start_break_time' => null,
-                            'end_break_time1' => null,
+                            'end_break_time' => null,
                         ];
                     }
                 @endphp
@@ -86,9 +102,9 @@
                         </div>
                     @else
                         <div class="form-input-group">
-                            <input type="time" name="arrival_time" value="{{ $attendanceRecord->arrival_time ?? '' }}" class="time-input" {{ $canEdit ? '' : 'disabled' }}>
+                            <input type="time" name="arrival_time" value="{{ old('arrival_time', $attendanceRecord->arrival_time ?? '') }}" class="time-input" {{ $canEdit ? '' : 'disabled' }}>
                             <span class="separator">~</span>
-                            <input type="time" name="departure_time" value="{{ $attendanceRecord->departure_time ?? '' }}" class="time-input" {{ $canEdit ? '' : 'disabled' }}>
+                            <input type="time" name="departure_time" value="{{ old('departure_time', $attendanceRecord->departure_time ?? '') }}" class="time-input" {{ $canEdit ? '' : 'disabled' }}>
                         </div>
                     @endif
                 </div>
@@ -116,7 +132,7 @@
                                     <div class="form-value form-value-break">
                                         <div class="break-readonly">
                                             <span class="break-readonly-time">
-                                                {{ $breaktime['start_break_time'] ?? '-' }} ~ {{ $breaktime['end_break_time1'] ?? '-' }}
+                                                {{ $breaktime['start_break_time'] ?? '-' }} ~ {{ $breaktime['end_break_time'] ?? '-' }}
                                             </span>
                                         </div>
                                     </div>
@@ -127,7 +143,7 @@
                         @php
                             $editableFirstBreak = [
                                 'start_break_time' => $firstBreakRecord['start_break_time'] ?? null,
-                                'end_break_time1' => $firstBreakRecord['end_break_time1'] ?? null,
+                                'end_break_time' => $firstBreakRecord['end_break_time'] ?? null,
                             ];
                             $editableAdditionalBreaks = $remainingBreakRecords;
                         @endphp
@@ -147,7 +163,7 @@
                                     <input
                                         type="time"
                                         name="breaktimes[0][end]"
-                                        value="{{ old('breaktimes.0.end', $editableFirstBreak['end_break_time1'] ?? '') }}"
+                                        value="{{ old('breaktimes.0.end', $editableFirstBreak['end_break_time'] ?? '') }}"
                                         class="time-input"
                                         data-type="end"
                                         {{ $canEdit ? '' : 'disabled' }}
@@ -176,7 +192,7 @@
                                             <input
                                                 type="time"
                                                 name="breaktimes[{{ $index + 1 }}][end]"
-                                                value="{{ old('breaktimes.'.($index + 1).'.end', $breaktime['end_break_time1'] ?? '') }}"
+                                                value="{{ old('breaktimes.'.($index + 1).'.end', $breaktime['end_break_time'] ?? '') }}"
                                                 class="time-input"
                                                 data-type="end"
                                                 {{ $canEdit ? '' : 'disabled' }}
@@ -200,7 +216,7 @@
                         </div>
                     @else
                         <div class="form-textarea-group">
-                            <textarea name="note" class="note-textarea" placeholder="備考を入力してください" {{ $canEdit ? '' : 'disabled' }}>{{ $attendanceRecord->note ?? '' }}</textarea>
+                            <textarea name="note" class="note-textarea" placeholder="備考を入力してください" {{ $canEdit ? '' : 'disabled' }}>{{ old('note', $attendanceRecord->note ?? '') }}</textarea>
                         </div>
                     @endif
                 </div>

@@ -35,7 +35,7 @@ class TimeSeeder extends Seeder
                 \App\Models\Breaktime::create([
                     'time_id' => $time->id,
                     'start_break_time' => sprintf('%02d:%02d', rand(12, 13), rand(0, 59)),
-                    'end_break_time1' => sprintf('%02d:%02d', rand(13, 14), rand(0, 59)),
+                    'end_break_time' => sprintf('%02d:%02d', rand(13, 14), rand(0, 59)),
                 ]);
             }
         }

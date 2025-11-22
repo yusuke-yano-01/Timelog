@@ -402,7 +402,7 @@ class TimelogTest extends TestCase
         Breaktime::create([
             'time_id' => $time->id,
             'start_break_time' => '12:00',
-            'end_break_time1' => '13:00',
+            'end_break_time' => '13:00',
         ]);
 
         $response = $this->actingAs($user)->get('/timelog/detail', [

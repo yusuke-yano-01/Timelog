@@ -9,6 +9,9 @@ class Actor extends Model
 {
     use HasFactory;
 
+    const ADMIN_ID = 1;
+    const STAFF_ID = 2;
+
     protected $fillable = [
         'id',
         'name',

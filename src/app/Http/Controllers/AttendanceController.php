@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Time;
 use App\Models\Breaktime;
 use Carbon\Carbon;
+use App\Models\Actor;
+use App\Constants\TimeConstants;
 
 class AttendanceController extends Controller
 {
@@ -15,7 +17,7 @@ class AttendanceController extends Controller
         $user = Auth::user();
         
         // 管理者は出勤・退勤画面にアクセスできない
-        if ($user->actor_id === 1) {
+        if ($user->actor_id === Actor::ADMIN_ID) {
             return redirect('/admin/attendance/list');
         }
         
@@ -45,7 +47,7 @@ class AttendanceController extends Controller
         $user = Auth::user();
         
         // 管理者は出勤・退勤機能を使用できない
-        if ($user->actor_id === 1) {
+        if ($user->actor_id === Actor::ADMIN_ID) {
             return redirect('/admin/attendance/list')->withErrors(['error' => '管理者は出勤・退勤機能を使用できません。']);
         }
         
@@ -75,7 +77,7 @@ class AttendanceController extends Controller
         $user = Auth::user();
         
         // 管理者は出勤・退勤機能を使用できない
-        if ($user->actor_id === 1) {
+        if ($user->actor_id === Actor::ADMIN_ID) {
             return redirect('/admin/attendance/list')->withErrors(['error' => '管理者は出勤・退勤機能を使用できません。']);
         }
         
@@ -107,7 +109,7 @@ class AttendanceController extends Controller
         $user = Auth::user();
         
         // 管理者は出勤・退勤機能を使用できない
-        if ($user->actor_id === 1) {
+        if ($user->actor_id === Actor::ADMIN_ID) {
             return redirect('/admin/attendance/list')->withErrors(['error' => '管理者は出勤・退勤機能を使用できません。']);
         }
         
@@ -137,16 +139,16 @@ class AttendanceController extends Controller
         $attendanceRecord->load('breaktimes');
         $breaktimes = $attendanceRecord->breaktimes;
         $openBreaktime = $breaktimes->first(function($bt) {
-            return $bt->start_break_time && !$bt->end_break_time1;
+            return $bt->start_break_time && !$bt->end_break_time;
         });
         
         if (!$openBreaktime) {
             // 新しい休憩時間レコードを作成
-            if ($breaktimes->count() < 2) {
+            if ($breaktimes->count() < TimeConstants::MAX_BREAK_COUNT) {
                 Breaktime::create([
                     'time_id' => $attendanceRecord->id,
                     'start_break_time' => $breakStartTime,
-                    'end_break_time1' => null, // 休憩終了時に更新
+                    'end_break_time' => null,
                 ]);
                 $user->break_flg = true;
                 $user->save();
@@ -165,7 +167,7 @@ class AttendanceController extends Controller
         $user = Auth::user();
         
         // 管理者は出勤・退勤機能を使用できない
-        if ($user->actor_id === 1) {
+        if ($user->actor_id === Actor::ADMIN_ID) {
             return redirect('/admin/attendance/list')->withErrors(['error' => '管理者は出勤・退勤機能を使用できません。']);
         }
         
@@ -190,11 +192,11 @@ class AttendanceController extends Controller
         // 開始済みで終了していない休憩時間を取得（リレーションを読み込む）
         $attendanceRecord->load('breaktimes');
         $openBreaktime = $attendanceRecord->breaktimes->first(function($bt) {
-            return $bt->start_break_time && !$bt->end_break_time1;
+            return $bt->start_break_time && !$bt->end_break_time;
         });
         
         if ($openBreaktime) {
-            $openBreaktime->end_break_time1 = $breakEndTime;
+            $openBreaktime->end_break_time = $breakEndTime;
             $openBreaktime->save();
             $user->break_flg = false;
             $user->save();
